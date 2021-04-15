@@ -37,19 +37,136 @@ ffmpeg  -i udp://@224.2.2.2:2007 -vcodec h264_nvenc -preset medium -profile high
 
 #mosaic out 
 
-ffmpeg -i udp://@224.2.2.2:2000  -i udp://@224.2.2.2:2003  -i udp://@224.2.2.2:2001 -i udp://@224.2.2.2:2004 -i udp://@224.2.2.2:2005 -i udp://@224.2.2.2:2006  -filter_complex " nullsrc=size=960x480 [base]; [0:v] setpts=PTS-STARTPTS, scale=320x240 [video1]; [1:v] setpts=PTS-STARTPTS, scale=320x240 [video2]; [2:v] setpts=PTS-STARTPTS, scale=320x240 [video3]; [3:v] setpts=PTS-STARTPTS, scale=320x240 [video4]; [4:v] setpts=PTS-STARTPTS, scale=320x240 [video5]; [5:v] setpts=PTS-STARTPTS, scale=320x240 [video6]; [base][video1] overlay=shortest=1 [tmp1]; [tmp1][video2] overlay=shortest=1:x=320 [tmp2]; [tmp2][video3] overlay=shortest=1:x=640 [tmp3]; [tmp3][video4] overlay=shortest=1:y=240 [tmp4]; [tmp4][video5] overlay=shortest=1:x=320:y=240 [tmp5]; [tmp5][video6] overlay=shortest=1:x=640:y=240" -c:v libx264 -c:a aac  -f mpegts "udp://225.2.1.1:1234?pkt_size=1316" 
+ffmpeg -i udp://@224.2.2.2:2000  -i udp://@224.2.2.2:2003  -i udp://@224.2.2.2:2001 -i udp://@224.2.2.2:2004 -i udp://@224.2.2.2:2005 -i udp://@224.2.2.2:2006  
+-filter_complex " nullsrc=size=960x480 [base];
+[0:v] setpts=PTS-STARTPTS, scale=320x240 [video1]; 
+[1:v] setpts=PTS-STARTPTS, scale=320x240 [video2];
+[2:v] setpts=PTS-STARTPTS, scale=320x240 [video3];
+[3:v] setpts=PTS-STARTPTS, scale=320x240 [video4]; 
+[4:v] setpts=PTS-STARTPTS, scale=320x240 [video5]; 
+[5:v] setpts=PTS-STARTPTS, scale=320x240 [video6];
+[base][video1] overlay=shortest=1 [tmp1]; 
+[tmp1][video2] overlay=shortest=1:x=320 [tmp2];
+[tmp2][video3] overlay=shortest=1:x=640 [tmp3];
+[tmp3][video4] overlay=shortest=1:y=240 [tmp4]; 
+[tmp4][video5] overlay=shortest=1:x=320:y=240 [tmp5];
+[tmp5][video6] overlay=shortest=1:x=640:y=240" 
+-c:v libx264 -c:a aac  -f mpegts "udp://225.2.1.1:1234?pkt_size=1316" 
 
 
 #MOSAIC OUT -9
-ffmpeg   -i udp://@224.2.2.2:2000?fifo_size=1000000 -i udp://@224.2.2.2:2001?fifo_size=1000000 -i udp://@224.2.2.2:2002?fifo_size=1000000 -i udp://@224.2.2.2:2003?fifo_size=1000000 -i udp://@224.2.2.2:2004?fifo_size=1000000 -i udp://@224.2.2.2:2005?fifo_size=1000000 -i udp://@224.2.2.2:2006?fifo_size=1000000 -i udp://@224.2.2.2:2007?fifo_size=1000000 -i udp://@224.2.2.2:2008?fifo_size=1000000  -vn -acodec pcm_s16le -ac 8000 -f segment -segment_time 3 -reset_timestamps 1 -strftime 1   -filter_complex " nullsrc=size=1440x810  [base]; [0:v] setpts=PTS-STARTPTS, scale=480x270 [video1]; [1:v] setpts=PTS-STARTPTS, scale=480x270 [video2]; [2:v] setpts=PTS-STARTPTS, scale=480x270 [video3]; [3:v] setpts=PTS-STARTPTS, scale=480x270 [video4]; [4:v] setpts=PTS-STARTPTS, scale=480x270 [video5]; [5:v] setpts=PTS-STARTPTS, scale=480x270 [video6]; [6:v] setpts=PTS-STARTPTS, scale=480x270 [video7]; [7:v] setpts=PTS-STARTPTS, scale=480x270 [video8]; [8:v] setpts=PTS-STARTPTS, scale=480x270 [video9]; [base][video1] overlay=shortest=0 [tmp1]; [tmp1][video2] overlay=shortest=0:x=480 [tmp2]; [tmp2][video3] overlay=shortest=0:x=960 [tmp3]; [tmp3][video4] overlay=shortest=0:y=270 [tmp4]; [tmp4][video5] overlay=shortest=0:x=480:y=270 [tmp5]; [tmp5][video6] overlay=shortest=0:x=960:y=270 [tmp6]; [tmp6][video7] overlay=shortest=0:y=540 [tmp7]; [tmp7][video8] overlay=shortest=0:x=480:y=540 [tmp8]; [tmp8][video9] overlay=shortest=0:x=960:y=540 " -c:v libx264  -an -f flv rtmp://localhost:1935/live/stream
+ffmpeg   -i udp://@224.2.2.2:2000?fifo_size=1000000 -i udp://@224.2.2.2:2001?fifo_size=1000000 -i udp://@224.2.2.2:2002?fifo_size=1000000 -i udp://@224.2.2.2:2003?fifo_size=1000000 -i udp://@224.2.2.2:2004?fifo_size=1000000 -i udp://@224.2.2.2:2005?fifo_size=1000000 -i udp://@224.2.2.2:2006?fifo_size=1000000 -i udp://@224.2.2.2:2007?fifo_size=1000000 -i udp://@224.2.2.2:2008?fifo_size=1000000  -vn -acodec pcm_s16le -ac 8000 -f segment -segment_time 3 -reset_timestamps 1 -strftime 1   
+-filter_complex " nullsrc=size=1440x810  [base]; 
+[0:v] setpts=PTS-STARTPTS, scale=480x270 [video1];
+[1:v] setpts=PTS-STARTPTS, scale=480x270 [video2];
+[2:v] setpts=PTS-STARTPTS, scale=480x270 [video3]; 
+[3:v] setpts=PTS-STARTPTS, scale=480x270 [video4]; 
+[4:v] setpts=PTS-STARTPTS, scale=480x270 [video5]; 
+[5:v] setpts=PTS-STARTPTS, scale=480x270 [video6]; 
+[6:v] setpts=PTS-STARTPTS, scale=480x270 [video7]; 
+[7:v] setpts=PTS-STARTPTS, scale=480x270 [video8]; 
+[8:v] setpts=PTS-STARTPTS, scale=480x270 [video9];
+[base][video1] overlay=shortest=0 [tmp1];
+[tmp1][video2] overlay=shortest=0:x=480 [tmp2];
+[tmp2][video3] overlay=shortest=0:x=960 [tmp3];
+[tmp3][video4] overlay=shortest=0:y=270 [tmp4]; 
+[tmp4][video5] overlay=shortest=0:x=480:y=270 [tmp5];
+[tmp5][video6] overlay=shortest=0:x=960:y=270 [tmp6]; 
+[tmp6][video7] overlay=shortest=0:y=540 [tmp7]; 
+[tmp7][video8] overlay=shortest=0:x=480:y=540 [tmp8];
+[tmp8][video9] overlay=shortest=0:x=960:y=540 "
+-c:v libx264  -an -f flv rtmp://localhost:1935/live/stream
+
+
 
 WHEN  USE ULTRAFAST PRESET ITS USE LESS CPU
 
 
 #MOSAIC OUT -12
-ffmpeg   -i udp://@224.2.2.2:2000?fifo_size=1000000 -i udp://@224.2.2.2:2001?fifo_size=1000000 -i udp://@224.2.2.2:2002?fifo_size=1000000 -i udp://@224.2.2.2:2003?fifo_size=1000000 -i udp://@224.2.2.2:2004?fifo_size=1000000 -i udp://@224.2.2.2:2005?fifo_size=1000000 -i udp://@224.2.2.2:2006?fifo_size=1000000 -i udp://@224.2.2.2:2007?fifo_size=1000000 -i udp://@224.2.2.2:2008?fifo_size=1000000 -i udp://@224.2.2.2:2009?fifo_size=1000000 -i udp://@224.2.2.2:2010?fifo_size=1000000 -i udp://@224.2.2.2:2011?fifo_size=1000000       -filter_complex "nullsrc=size=1920x1080 [base]; [0:v] setpts=PTS-STARTPTS, scale=480x360 [video1]; [1:v] setpts=PTS-STARTPTS, scale= 480x360 [video2]; [2:v] setpts=PTS-STARTPTS, scale=480x360 [video3]; [3:v] setpts=PTS-STARTPTS, scale=480x360 [video4]; [4:v] setpts=PTS-STARTPTS, scale= 480x360 [video5]; [5:v] setpts=PTS-STARTPTS, scale=480x360 [video6]; [6:v] setpts=PTS-STARTPTS, scale=480x360 [video7]; [7:v] setpts=PTS-STARTPTS, scale= 480x360 [video8]; [8:v] setpts=PTS-STARTPTS, scale=480x360 [video9]; [9:v] setpts=PTS-STARTPTS, scale=480x360 [video10]; [10:v] setpts=PTS-STARTPTS, scale= 480x360 [video11]; [11:v] setpts=PTS-STARTPTS, scale=480x360 [video12]; [base][video1] overlay=shortest=0 [tmp1]; [tmp1][video2] overlay=shortest=0:x= 480[tmp2]; [tmp2][video3] overlay=shortest=0:x=960 [tmp3]; [tmp3][video4] overlay=shortest=0:x=1440 [tmp4]; [tmp4][video5] overlay=shortest=0:y=360 [tmp5]; [tmp5][video6] overlay=shortest=0:x=480:y=360 [tmp6]; [tmp6][video7] overlay=shortest=0:x=960:y=360 [tmp7]; [tmp7][video8] overlay=shortest=0:x=1440:y=360 [tmp8]; [tmp8][video9] overlay=shortest=0:y=720 [tmp9];  [tmp9][video10] overlay=shortest=0:x=480:y=720 [tmp10]; [tmp10][video11] overlay=shortest=0:x=960:y= 720 [tmp11]; [tmp11][video12] overlay=shortest=0:x=1440:y=720" -c:v libx264  -b:v 2M -minrate 2M -maxrate 2M  -preset ultrafast  -an -f mpegts "udp://225.2.1.1:1234?pkt_size=1316"
+ffmpeg   -i udp://@224.2.2.2:2000?fifo_size=1000000 -i udp://@224.2.2.2:2001?fifo_size=1000000 -i udp://@224.2.2.2:2002?fifo_size=1000000 -i udp://@224.2.2.2:2003?fifo_size=1000000 -i udp://@224.2.2.2:2004?fifo_size=1000000 -i udp://@224.2.2.2:2005?fifo_size=1000000 -i udp://@224.2.2.2:2006?fifo_size=1000000 -i udp://@224.2.2.2:2007?fifo_size=1000000 -i udp://@224.2.2.2:2008?fifo_size=1000000 -i udp://@224.2.2.2:2009?fifo_size=1000000 -i udp://@224.2.2.2:2010?fifo_size=1000000 -i udp://@224.2.2.2:2011?fifo_size=1000000      
+-filter_complex "nullsrc=size=1920x1080 [base]; 
+[0:v] setpts=PTS-STARTPTS, scale=480x360 [video1];
+[1:v] setpts=PTS-STARTPTS, scale= 480x360 [video2]; 
+[2:v] setpts=PTS-STARTPTS, scale=480x360 [video3]; 
+[3:v] setpts=PTS-STARTPTS, scale=480x360 [video4];
+[4:v] setpts=PTS-STARTPTS, scale= 480x360 [video5];
+[5:v] setpts=PTS-STARTPTS, scale=480x360 [video6];
+[6:v] setpts=PTS-STARTPTS, scale=480x360 [video7]; 
+[7:v] setpts=PTS-STARTPTS, scale= 480x360 [video8];
+[8:v] setpts=PTS-STARTPTS, scale=480x360 [video9]; 
+[9:v] setpts=PTS-STARTPTS, scale=480x360 [video10];
+[10:v] setpts=PTS-STARTPTS, scale= 480x360 [video11]; 
+[11:v] setpts=PTS-STARTPTS, scale=480x360 [video12]; 
+[base][video1] overlay=shortest=0 [tmp1];
+[tmp1][video2] overlay=shortest=0:x= 480[tmp2]; 
+[tmp2][video3] overlay=shortest=0:x=960 [tmp3]; 
+[tmp3][video4] overlay=shortest=0:x=1440 [tmp4];
+[tmp4][video5] overlay=shortest=0:y=360 [tmp5]; 
+[tmp5][video6] overlay=shortest=0:x=480:y=360 [tmp6]; 
+[tmp6][video7] overlay=shortest=0:x=960:y=360 [tmp7];
+[tmp7][video8] overlay=shortest=0:x=1440:y=360 [tmp8];
+[tmp8][video9] overlay=shortest=0:y=720 [tmp9]; 
+[tmp9][video10] overlay=shortest=0:x=480:y=720 [tmp10]; 
+[tmp10][video11] overlay=shortest=0:x=960:y= 720 [tmp11]; 
+[tmp11][video12] overlay=shortest=0:x=1440:y=720" 
+-c:v libx264  -b:v 2M -minrate 2M -maxrate 2M  -preset ultrafast  -an -f mpegts "udp://225.2.1.1:1234?pkt_size=1316"
 
 
+# 12 CHANNEL MOSAIC WITH AUDIO BAR 
 
+ffmpeg   -i udp://@224.2.2.2:2000?fifo_size=1000000 -i udp://@224.2.2.2:2001?fifo_size=1000000 -i udp://@224.2.2.2:2002?fifo_size=1000000 -i 
+udp://@224.2.2.2:2003?fifo_size=1000000 -i udp://@224.2.2.2:2004?fifo_size=1000000 -i udp://@224.2.2.2:2005?fifo_size=1000000 -i 
+udp://@224.2.2.2:2006?fifo_size=1000000 -i udp://@224.2.2.2:2007?fifo_size=1000000 -i udp://@224.2.2.2:2008?fifo_size=1000000 -i 
+udp://@224.2.2.2:2009?fifo_size=1000000 -i udp://@224.2.2.2:2010?fifo_size=1000000 -i udp://@224.2.2.2:2011?fifo_size=1000000       
+-filter_complex  "color=c=black:size=1280x720 [base]; 
+[0:v] setpts=PTS-STARTPTS, scale=244x192, drawtext=text='TESTO1'[video1]; 
+[0:a] showvolume=b=1:h=10:w=200:o=v [audio1];
+[1:v] setpts=PTS-STARTPTS, scale= 244x192 [video2]; 
+[1:a] showvolume=b=1:h=10:w=200:o=v [audio2];
+[2:v] setpts=PTS-STARTPTS, scale=244x192 [video3];
+[2:a] showvolume=b=1:h=10:w=200:o=v [audio3]; 
+[3:v] setpts=PTS-STARTPTS, scale=244x192 [video4];
+[3:a] showvolume=b=1:h=10:w=200:o=v [audio4]; 
+[4:v] setpts=PTS-STARTPTS, scale= 244x192 [video5]; 
+[4:a] showvolume=b=1:h=10:w=200:o=v [audio5];
+[5:v] setpts=PTS-STARTPTS, scale=244x192 [video6];
+[5:a] showvolume=b=1:h=10:w=200:o=v [audio6]; 
+[6:v] setpts=PTS-STARTPTS, scale=244x192 [video7];
+[6:a] showvolume=b=1:h=10:w=200:o=v [audio7]; 
+[7:v] setpts=PTS-STARTPTS, scale= 244x192 [video8];
+[7:a] showvolume=b=1:h=10:w=200:o=v [audio8]; 
+[8:v] setpts=PTS-STARTPTS, scale=244x192 [video9]; 
+[8:a] showvolume=b=1:h=10:w=200:o=v [audio9];
+[9:v] setpts=PTS-STARTPTS, scale=244x192 [video10]; 
+[9:a] showvolume=b=1:h=10:w=200:o=v [audio10];
+[10:v] setpts=PTS-STARTPTS, scale= 244x192 [video11]; 
+[10:a] showvolume=b=1:h=10:w=200:o=v [audio11];
+[11:v] setpts=PTS-STARTPTS, scale=244x192 [video12]; 
+[11:a] showvolume=b=1:h=10:w=200:o=v [audio12];
+[base][video1]  overlay=shortest=0:x=50:y=10 [stop1];
+[stop1][audio1] overlay=shortest=0:x=0:y=0    [tmp1]; 
+[tmp1][video2]  overlay=shortest=0:x=370:y=10 [stop2];
+[stop2][audio2] overlay=shortest=0:x=320:y=0  [tmp2]; 
+[tmp2][video3]  overlay=shortest=0:x=690:y=10 [stop3]; 
+[stop3][audio3] overlay=shortest=0:x=640:y=0  [tmp3];
+[tmp3][video4]  overlay=shortest=0:x=1010:y=10 [stop4]; 
+[stop4][audio4] overlay=shortest=0:x=960:y=0   [tmp4];
+[tmp4][video5]  overlay=shortest=0:x=50:y=250 [stop5]; 
+[stop5][audio5] overlay=shortest=0:x=0:y=240  [tmp5];
+[tmp5][video6]  overlay=shortest=0:x=370:y=250 [stop6]; 
+[stop6][audio6] overlay=shortest=0:x=320:y=240 [tmp6];
+[tmp6][video7]  overlay=shortest=0:x=690:y=250 [stop7]; 
+[stop7][audio7] overlay=shortest=0:x=640:y=240 [tmp7];
+[tmp7][video8]  overlay=shortest=0:x=1010:y=250 [stop8]; 
+[stop8][audio8] overlay=shortest=0:x=960:y=240 [tmp8];
+[tmp8][video9]  overlay=shortest=0:x=50:y=490 [stop9]; 
+[stop9][audio9] overlay=shortest=0:x=0:y=480  [tmp9]; 
+[tmp9][video10] overlay=shortest=0:x=370:y=490 [stop10];
+[stop10][audio10] overlay=shortest=0:x=320:y=480 [tmp10];
+[tmp10][video11]  overlay=shortest=0:x=690:y=490 [stop11];
+[stop11][audio11] overlay=shortest=0:x=640:y=480  [tmp11];
+[tmp11][video12]  overlay=shortest=0:x=1010:y=490 [stop12]; 
+[stop12][audio12]  overlay=shortest=0:x=960:y=480 "
+ -c:v libx264  -preset superfast -an -f mpegts "udp://225.2.1.1:1234?pkt_size=1316"
 
 
