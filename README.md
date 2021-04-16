@@ -170,6 +170,7 @@ udp://@224.2.2.2:2009?fifo_size=1000000 -i udp://@224.2.2.2:2010?fifo_size=10000
  -c:v libx264  -preset superfast -an -f mpegts "udp://225.2.1.1:1234?pkt_size=1316"
  
  # 16-ch mosaic 
+ 
  ffmpeg  -i udp://@224.2.2.2:2000?fifo_size=1000000 -i udp://@224.2.2.2:2001?fifo_size=1000000 -i 
 udp://@224.2.2.2:2002?fifo_size=1000000 -i udp://@224.2.2.2:2003?fifo_size=1000000 -i udp://@224.2.2.2:2004?fifo_size=1000000 -i 
 udp://@224.2.2.2:2005?fifo_size=1000000 -i udp://@224.2.2.2:2006?fifo_size=1000000 -i udp://@224.2.2.2:2007?fifo_size=1000000 -i 
@@ -209,6 +210,82 @@ udp://@224.2.2.2:2014?fifo_size=1000000 -i udp://@224.2.2.2:2015?fifo_size=10000
  [tmp13][video14] overlay=shortest=0:x=320:y=540 [tmp14]; 
  [tmp14][video15] overlay=shortest=0:x=640:y=540 [tmp15]; 
  [tmp15][video16] overlay=shortest=0:x=960:y=540 "  
+ -c:v libx264  -preset superfast -an -f mpegts udp://225.2.1.1:1234?pkt_size=1316
+ 
+ 
+ 16-ch with audio bar
+ 
+ ffmpeg -i udp://@224.2.2.2:2000?fifo_size=1000000 -i udp://@224.2.2.2:2001?fifo_size=1000000 -i udp://@224.2.2.2:2002?fifo_size=1000000 
+-i udp://@224.2.2.2:2003?fifo_size=1000000 -i udp://@224.2.2.2:2004?fifo_size=1000000 -i udp://@224.2.2.2:2005?fifo_size=1000000 
+-i udp://@224.2.2.2:2006?fifo_size=1000000 -i udp://@224.2.2.2:2007?fifo_size=1000000 -i udp://@224.2.2.2:2008?fifo_size=1000000 
+-i udp://@224.2.2.2:2009?fifo_size=1000000 -i udp://@224.2.2.2:2010?fifo_size=1000000 -i udp://@224.2.2.2:2011?fifo_size=1000000 
+-i udp://@224.2.2.2:2012?fifo_size=1000000 -i udp://@224.2.2.2:2013?fifo_size=1000000 -i udp://@224.2.2.2:2014?fifo_size=1000000 
+-i udp://@224.2.2.2:2015?fifo_size=1000000
+ -filter_complex "color=c=black:size=1280x720 [base]; 
+ [0:v] setpts=PTS-STARTPTS, scale=230x170 [video1];
+ [0:a] showvolume=b=1:h=10:w=170:o=v [audio1]; 
+ [1:v] setpts=PTS-STARTPTS, scale=230x170 [video2];
+ [1:a] showvolume=b=1:h=10:w=170:o=v [audio2];
+ [2:v] setpts=PTS-STARTPTS, scale=230x170 [video3];
+ [2:a] showvolume=b=1:h=10:w=170:o=v [audio3];
+ [3:v] setpts=PTS-STARTPTS, scale=230x170 [video4];
+ [3:a] showvolume=b=1:h=10:w=170:o=v [audio4]; 
+ [4:v] setpts=PTS-STARTPTS, scale=230x170 [video5];
+ [4:a] showvolume=b=1:h=10:w=170:o=v [audio5];
+ [5:v] setpts=PTS-STARTPTS, scale=230x170 [video6]; 
+ [5:a] showvolume=b=1:h=10:w=170:o=v [audio6];
+ [6:v] setpts=PTS-STARTPTS, scale=230x170 [video7]; 
+ [6:a] showvolume=b=1:h=10:w=170:o=v [audio7];
+ [7:v] setpts=PTS-STARTPTS, scale=230x170 [video8];
+ [7:a] showvolume=b=1:h=10:w=170:o=v [audio8];
+ [8:v] setpts=PTS-STARTPTS, scale=230x170 [video9]; 
+ [8:a] showvolume=b=1:h=10:w=170:o=v [audio9];
+ [9:v] setpts=PTS-STARTPTS, scale=230x170 [video10];
+ [9:a] showvolume=b=1:h=10:w=170:o=v [audio10];
+ [10:v] setpts=PTS-STARTPTS, scale=230x170 [video11]; 
+ [10:a] showvolume=b=1:h=10:w=170:o=v [audio11];
+ [11:v] setpts=PTS-STARTPTS, scale=230x170 [video12];
+ [11:a] showvolume=b=1:h=10:w=170:o=v [audio12];
+ [12:v] setpts=PTS-STARTPTS, scale=230x170 [video13];
+ [12:a] showvolume=b=1:h=10:w=170:o=v [audio13];
+ [13:v] setpts=PTS-STARTPTS, scale=230x170 [video14]; 
+ [13:a] showvolume=b=1:h=10:w=170:o=v [audio14];
+ [14:v] setpts=PTS-STARTPTS, scale=230x170 [video15]; 
+ [14:a] showvolume=b=1:h=10:w=170:o=v [audio15];
+ [15:v] setpts=PTS-STARTPTS, scale=230x170 [video16];
+ [15:a] showvolume=b=1:h=10:w=170:o=v [audio16];
+ [base][video1]  overlay=shortest=0:x=50:y=10 [stop1];
+[stop1][audio1] overlay=shortest=0:x=20:y=0    [tmp1]; 
+[tmp1][video2]  overlay=shortest=0:x=370:y=10 [stop2];
+[stop2][audio2] overlay=shortest=0:x=340:y=0  [tmp2]; 
+[tmp2][video3]  overlay=shortest=0:x=690:y=10 [stop3]; 
+[stop3][audio3] overlay=shortest=0:x=660:y=0  [tmp3];
+[tmp3][video4]  overlay=shortest=0:x=1010:y=10 [stop4]; 
+[stop4][audio4] overlay=shortest=0:x=980:y=0   [tmp4];
+[tmp4][video5]  overlay=shortest=0:x=50:y=190 [stop5]; 
+[stop5][audio5] overlay=shortest=0:x=20:y=180  [tmp5];
+[tmp5][video6]  overlay=shortest=0:x=370:y=190 [stop6]; 
+[stop6][audio6] overlay=shortest=0:x=340:y=180 [tmp6];
+[tmp6][video7]  overlay=shortest=0:x=690:y=190 [stop7]; 
+[stop7][audio7] overlay=shortest=0:x=660:y=180 [tmp7];
+[tmp7][video8]  overlay=shortest=0:x=1010:y=190 [stop8]; 
+[stop8][audio8] overlay=shortest=0:x=980:y=180 [tmp8];
+[tmp8][video9]  overlay=shortest=0:x=50:y=370 [stop9]; 
+[stop9][audio9] overlay=shortest=0:x=20:y=360  [tmp9]; 
+[tmp9][video10] overlay=shortest=0:x=370:y=370 [stop10];
+[stop10][audio10] overlay=shortest=0:x=340:y=360 [tmp10];
+[tmp10][video11]  overlay=shortest=0:x=690:y=370 [stop11];
+[stop11][audio11] overlay=shortest=0:x=660:y=360  [tmp11];
+[tmp11][video12]  overlay=shortest=0:x=1010:y=370 [stop12]; 
+[stop12][audio12]  overlay=shortest=0:x=980:y=360  [tmp12];
+[tmp12][video13]  overlay=shortest=0:x=50:y=550  [stop13];
+[stop13][audio13]  overlay=shortest=0:x=20:y=540  [tmp13];
+[tmp13][video14]  overlay=shortest=0:x=370:y=550 [stop14];
+[stop14][audio14]  overlay=shortest=0:x=340:y=540  [tmp14];
+[tmp14][video15]  overlay=shortest=0:x=690:y=550 [stop15];
+[stop15][audio15]  overlay=shortest=0:x=660:y=540  [tmp15];
+[tmp15][video16]  overlay=shortest=0:x=1010:y=550 [stop16];
+[stop16][audio16]  overlay=shortest=0:x=980:y=540  "
  -c:v libx264  -preset superfast -an -f mpegts udp://225.2.1.1:1234?pkt_size=1316
 
 
