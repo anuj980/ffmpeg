@@ -168,5 +168,47 @@ udp://@224.2.2.2:2009?fifo_size=1000000 -i udp://@224.2.2.2:2010?fifo_size=10000
 [tmp11][video12]  overlay=shortest=0:x=1010:y=490 [stop12]; 
 [stop12][audio12]  overlay=shortest=0:x=960:y=480 "
  -c:v libx264  -preset superfast -an -f mpegts "udp://225.2.1.1:1234?pkt_size=1316"
+ 
+ # 16-ch mosaic 
+ ffmpeg  -i udp://@224.2.2.2:2000?fifo_size=1000000 -i udp://@224.2.2.2:2001?fifo_size=1000000 -i 
+udp://@224.2.2.2:2002?fifo_size=1000000 -i udp://@224.2.2.2:2003?fifo_size=1000000 -i udp://@224.2.2.2:2004?fifo_size=1000000 -i 
+udp://@224.2.2.2:2005?fifo_size=1000000 -i udp://@224.2.2.2:2006?fifo_size=1000000 -i udp://@224.2.2.2:2007?fifo_size=1000000 -i 
+udp://@224.2.2.2:2008?fifo_size=1000000 -i udp://@224.2.2.2:2009?fifo_size=1000000 -i udp://@224.2.2.2:2010?fifo_size=1000000 -i 
+udp://@224.2.2.2:2011?fifo_size=1000000  -i udp://@224.2.2.2:2012?fifo_size=1000000  -i udp://@224.2.2.2:2013?fifo_size=1000000 -i 
+udp://@224.2.2.2:2014?fifo_size=1000000 -i udp://@224.2.2.2:2015?fifo_size=1000000  
+ -filter_complex " nullsrc=size=1280x720 [base]; 
+ [0:v] setpts=PTS-STARTPTS, scale=320x180 [video1]; 
+ [1:v] setpts=PTS-STARTPTS, scale=320x180 [video2];
+ [2:v] setpts=PTS-STARTPTS, scale=320x180 [video3];
+ [3:v] setpts=PTS-STARTPTS, scale=320x180 [video4]; 
+ [4:v] setpts=PTS-STARTPTS, scale=320x180 [video5];
+ [5:v] setpts=PTS-STARTPTS, scale=320x180 [video6]; 
+ [6:v] setpts=PTS-STARTPTS, scale=320x180 [video7]; 
+ [7:v] setpts=PTS-STARTPTS, scale=320x180 [video8];
+ [8:v] setpts=PTS-STARTPTS, scale=320x180 [video9]; 
+ [9:v] setpts=PTS-STARTPTS, scale=320x180 [video10];
+ [10:v] setpts=PTS-STARTPTS, scale=320x180 [video11]; 
+ [11:v] setpts=PTS-STARTPTS, scale=320x180 [video12];
+ [12:v] setpts=PTS-STARTPTS, scale=320x180 [video13];
+ [13:v] setpts=PTS-STARTPTS, scale=320x180 [video14]; 
+ [14:v] setpts=PTS-STARTPTS, scale=320x180 [video15]; 
+ [15:v] setpts=PTS-STARTPTS, scale=320x180 [video16];
+ [base][video1] overlay=shortest=0 [tmp1];
+ [tmp1][video2] overlay=shortest=0:x=320 [tmp2];
+ [tmp2][video3] overlay=shortest=0:x=640 [tmp3]; 
+ [tmp3][video4] overlay=shortest=0:x=960 [tmp4];
+ [tmp4][video5] overlay=shortest=0:y=180 [tmp5]; 
+ [tmp5][video6] overlay=shortest=0:x=320:y=180 [tmp6]; 
+ [tmp6][video7] overlay=shortest=0:x=640:y=180 [tmp7]; 
+ [tmp7][video8] overlay=shortest=0:x=960:y=180 [tmp8];
+ [tmp8][video9] overlay=shortest=0:y=360 [tmp9]; 
+ [tmp9][video10] overlay=shortest=0:x=320:y=360 [tmp10]; 
+ [tmp10][video11] overlay=shortest=0:x=640:y=360 [tmp11];
+ [tmp11][video12] overlay=shortest=0:x=960:y=360 [tmp12];
+ [tmp12][video13] overlay=shortest=0:y=540 [tmp13]; 
+ [tmp13][video14] overlay=shortest=0:x=320:y=540 [tmp14]; 
+ [tmp14][video15] overlay=shortest=0:x=640:y=540 [tmp15]; 
+ [tmp15][video16] overlay=shortest=0:x=960:y=540 "  
+ -c:v libx264  -preset superfast -an -f mpegts udp://225.2.1.1:1234?pkt_size=1316
 
 
