@@ -1,5 +1,11 @@
 # ffmpeg
 
+
+
+#'''HLS TO Facebook'''
+
+ffmpeg -re -y -i https://feeds.intoday.in/aajtak/api/aajtakhd/master.m3u8 -c:a copy -ac 1 -ar 44100 -b:a 96k -vcodec libx264 -pix_fmt yuv420p  -r 30 -g 60 -tune zerolatency  -maxrate 2000k -preset veryfast  -f flv rtmps://live-api-s.facebook.com:443/rtmp/FB-996056144310758-0-AbziA61opBf49Av6
+
 #'''HLS TO YOUTUBE'''
 
 ffmpeg -re -i "hlsinput" -framerate 30 -video_size 1280x720 -vcodec libx264 -preset veryfast -maxrate 1984k -bufsize 3968k  -g 60 -c:a aac -b:a 128k -ar 44100 -f flv " rtmp://output "
